@@ -1,0 +1,47 @@
+buatkan saya issue.md yang berisi perencanaan untuk nanti di implementasikan oleh junior programmer atau model Ai yang lebih murah
+
+isi dari perencanaan sebagai berikut :
+
+buat table users :
+id integer auto increment
+token varchar 255 not null (isinya UUID untuk token user yang login )
+user_id integer (FK ke tabel users)
+created_at timestamp default current_timestamp
+
+buatkan api untuk registerasi login user
+
+Endpoints : POST api/users/login
+
+Request body :
+{
+    "email": "ipanzx@gmail.com",
+    "password": "ipanzx"
+}
+
+
+Response body (success)  :
+{
+    "message": "Login user successfully",
+    "user": {
+        "id": 1,
+        "name": "ipanzx",
+        "email": "ipanzx@gmail.com",
+        "token": "randomUUID"
+    }
+}
+
+Response body (failed)
+{
+    "message": "email atau password salah",
+    "error": "Unauthorized"
+}
+
+structure folder : 
+- routes : berisi routing elysia js
+- services : berisi bisnis logika aplikasi
+
+structure file : 
+- routes : menggunakan format misal users-routes.ts
+- services : menggunakan format misal users-services.ts
+
+jelaskan tahap-tahapan yang harus dilakukan untuk mengimplementasikan fitur ini, anggap nanti yang mengimplementasikan fitur ini adalah junior programmer atau model AI yang lebih murah 
