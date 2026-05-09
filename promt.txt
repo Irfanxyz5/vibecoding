@@ -2,32 +2,12 @@ buatkan saya issue.md yang berisi perencanaan untuk nanti di implementasikan ole
 
 isi dari perencanaan sebagai berikut :
 
-buatkan API untuk logout user
+buatkan unit test untuk semua api yang tersedia
 
-Endpoints : DELETE api/users/logout
+simpan di folder tests, menggunakan bun test
 
-Header : 
-- Authorization: Bearer <token> ( token adalah yang ada di table users )
+setiap sekenario, hapus data terlebih dahulu agar konsisten
 
-Response body (success)  :
-{
-    "message": "User logout successfully",
-}
+buat sekenario per API selengkap mungkin
 
-Jika sudah logout, maka data session tersebut harus di hapus dari table sessions
-
-Response body (failed)
-{
-    "message": "Token is invalid or expired",
-    "error": "Unauthorized"
-}
-
-structure folder : 
-- routes : berisi routing elysia js
-- services : berisi bisnis logika aplikasi
-
-structure file : 
-- routes : menggunakan format misal users-routes.ts
-- services : menggunakan format misal users-services.ts
-
-jelaskan tahap-tahapan yang harus dilakukan untuk mengimplementasikan fitur ini, anggap nanti yang mengimplementasikan fitur ini adalah junior programmer atau model AI yang lebih murah 
+jangan buatkan terlalu detail unit test nya, buatkan saja sekenario apa yang harus di test, Biarkan nanti yang implementasi detail sekenarionya adalah Junior programmer atau ai yang lebih murah
