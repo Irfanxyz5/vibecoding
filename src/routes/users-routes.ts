@@ -103,13 +103,17 @@ export const userRoutes = new Elysia({ prefix: "/api/users" })
   })
   .group("", (app) =>
     app
-      .derive(async ({ headers, set }) => {
+      .derive(async ({ headers }) => {
         const authHeader = headers.authorization;
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
           return { user: null, token: null };
         }
 
         const token = authHeader.split(" ")[1];
+        if (!token) {
+          return { user: null, token: null };
+        }
+
         try {
           const user = await getCurrentUser(token);
           return { user, token };
@@ -127,9 +131,10 @@ export const userRoutes = new Elysia({ prefix: "/api/users" })
         }
       })
       .get("/current", async ({ user }) => {
+        const { id, name, email } = user!;
         return {
           message: "User get successfully",
-          user,
+          user: { id, name, email },
         };
       }, {
         detail: {
