@@ -1,7 +1,0 @@
-buatkan saya issue.md yang berisi perencanaan untuk nanti di implementasikan oleh junior programmer atau model Ai yang lebih murah
-
-isi dari perencanaan sebagai berikut :
-
-saya mau tambahkan fitur swegger di project  ini agar user lain yang mau menggunakan API di aplikasi ini agar lebih mudah tinggal membuka swegger nya.
-
-buatkan tahap-tahapan yang harus di lakukan untuk implementasikan jelaskan secara detail dengan target adalah seorang Junior programmer atau ai yang lebih murah
