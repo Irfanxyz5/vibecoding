@@ -102,3 +102,22 @@ export const getCurrentUser = async (token: string) => {
   return userWithoutPassword;
 };
 
+export const logoutUser = async (token: string) => {
+  if (!token) {
+    throw new Error("Token is invalid or expired");
+  }
+
+  // Check if token exists
+  const tokenData = await db.query.userTokens.findFirst({
+    where: eq(userTokens.token, token),
+  });
+
+  if (!tokenData) {
+    throw new Error("Token is invalid or expired");
+  }
+
+  // Delete token
+  await db.delete(userTokens).where(eq(userTokens.token, token));
+
+  return true;
+};

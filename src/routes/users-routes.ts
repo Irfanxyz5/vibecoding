@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { registerUser, loginUser, getCurrentUser } from "../services/users-services";
+import { registerUser, loginUser, getCurrentUser, logoutUser } from "../services/users-services";
 
 export const userRoutes = new Elysia({ prefix: "/api/users" })
   .post("/", async ({ body, set }) => {
@@ -95,5 +95,39 @@ export const userRoutes = new Elysia({ prefix: "/api/users" })
         error: error.message,
       };
     }
+  })
+  .delete("/logout", async ({ headers, set }) => {
+    try {
+      const authHeader = headers.authorization;
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        set.status = 401;
+        return {
+          message: "Token is invalid or expired",
+          error: "Unauthorized",
+        };
+      }
+
+      const token = authHeader.split(" ")[1];
+      await logoutUser(token);
+
+      return {
+        message: "User logout successfully",
+      };
+    } catch (error: any) {
+      if (error.message === "Token is invalid or expired") {
+        set.status = 401;
+        return {
+          message: "Token is invalid or expired",
+          error: "Unauthorized",
+        };
+      }
+
+      set.status = 500;
+      return {
+        message: "Internal Server Error",
+        error: error.message,
+      };
+    }
   });
+
 
