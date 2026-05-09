@@ -2,27 +2,23 @@ buatkan saya issue.md yang berisi perencanaan untuk nanti di implementasikan ole
 
 isi dari perencanaan sebagai berikut :
 
-buatkan API get users saat ini yang sedang login 
+buatkan API untuk logout user
 
-Endpoints : GET api/users/current
+Endpoints : DELETE api/users/logout
 
 Header : 
 - Authorization: Bearer <token> ( token adalah yang ada di table users )
 
 Response body (success)  :
 {
-    "message": "User get successfully",
-    "user": {
-        "id": 1,
-        "name": "ipanzx",
-        "email": "ipanzx@gmail.com",
-        "created_at": "timestamp",
-    }
+    "message": "User logout successfully",
 }
+
+Jika sudah logout, maka data session tersebut harus di hapus dari table sessions
 
 Response body (failed)
 {
-    "message": "Token is invalid",
+    "message": "Token is invalid or expired",
     "error": "Unauthorized"
 }
 
