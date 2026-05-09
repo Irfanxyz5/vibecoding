@@ -3,6 +3,15 @@ import { users, userTokens } from "../db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
 
+/**
+ * Mendaftarkan pengguna baru ke dalam sistem.
+ * Fungsi ini akan mengecek apakah email sudah terdaftar, melakukan hashing pada password,
+ * menyimpan data pengguna ke database, dan mengembalikan profil pengguna (tanpa password).
+ *
+ * @param {any} data - Objek yang berisi name, email, dan password.
+ * @returns {Promise<Object>} Data profil pengguna yang baru dibuat.
+ * @throws {Error} Jika email sudah terdaftar.
+ */
 export const registerUser = async (data: any) => {
   const { name, email, password } = data;
 
@@ -41,6 +50,15 @@ export const registerUser = async (data: any) => {
   return userWithoutPassword;
 };
 
+/**
+ * Mengautentikasi pengguna dan membuat sesi login baru.
+ * Fungsi ini memvalidasi email dan password, membuat token UUID unik untuk sesi,
+ * menyimpannya ke tabel user_tokens, dan mengembalikan profil beserta token.
+ *
+ * @param {any} data - Objek yang berisi email dan password.
+ * @returns {Promise<Object>} Profil pengguna beserta properti token.
+ * @throws {Error} Jika email tidak ditemukan atau password salah.
+ */
 export const loginUser = async (data: any) => {
   const { email, password } = data;
 
@@ -77,6 +95,14 @@ export const loginUser = async (data: any) => {
   };
 };
 
+/**
+ * Mengambil profil pengguna yang sedang login berdasarkan token sesi yang aktif.
+ * Fungsi ini melakukan join antara tabel user_tokens dan users untuk mendapatkan data pengguna.
+ *
+ * @param {string} token - Bearer token milik pengguna.
+ * @returns {Promise<Object>} Profil pengguna yang sedang login (tanpa password).
+ * @throws {Error} Jika token tidak valid, kadaluarsa, atau tidak ditemukan.
+ */
 export const getCurrentUser = async (token: string) => {
   if (!token) {
     throw new Error("Token is invalid");
@@ -102,6 +128,14 @@ export const getCurrentUser = async (token: string) => {
   return userWithoutPassword;
 };
 
+/**
+ * Mengakhiri sesi pengguna dengan menghapus token dari database.
+ * Setelah fungsi ini dijalankan, token tersebut tidak bisa lagi digunakan untuk otentikasi.
+ *
+ * @param {string} token - Bearer token sesi yang ingin dihapus.
+ * @returns {Promise<boolean>} Mengembalikan true jika berhasil dihapus.
+ * @throws {Error} Jika token tidak ditemukan di database.
+ */
 export const logoutUser = async (token: string) => {
   if (!token) {
     throw new Error("Token is invalid or expired");
