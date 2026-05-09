@@ -76,3 +76,29 @@ export const loginUser = async (data: any) => {
     token,
   };
 };
+
+export const getCurrentUser = async (token: string) => {
+  if (!token) {
+    throw new Error("Token is invalid");
+  }
+
+  // Find token and join with user
+  const tokenData = await db.query.userTokens.findFirst({
+    where: eq(userTokens.token, token),
+    with: {
+      user: true,
+    },
+  });
+
+  if (!tokenData || !tokenData.user) {
+    throw new Error("Token is invalid");
+  }
+
+  const user = tokenData.user;
+
+  // Remove sensitive data
+  const { password: _, ...userWithoutPassword } = user;
+
+  return userWithoutPassword;
+};
+

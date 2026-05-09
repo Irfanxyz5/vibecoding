@@ -2,37 +2,27 @@ buatkan saya issue.md yang berisi perencanaan untuk nanti di implementasikan ole
 
 isi dari perencanaan sebagai berikut :
 
-buat table users :
-id integer auto increment
-token varchar 255 not null (isinya UUID untuk token user yang login )
-user_id integer (FK ke tabel users)
-created_at timestamp default current_timestamp
+buatkan API get users saat ini yang sedang login 
 
-buatkan api untuk registerasi login user
+Endpoints : GET api/users/current
 
-Endpoints : POST api/users/login
-
-Request body :
-{
-    "email": "ipanzx@gmail.com",
-    "password": "ipanzx"
-}
-
+Header : 
+- Authorization: Bearer <token> ( token adalah yang ada di table users )
 
 Response body (success)  :
 {
-    "message": "Login user successfully",
+    "message": "User get successfully",
     "user": {
         "id": 1,
         "name": "ipanzx",
         "email": "ipanzx@gmail.com",
-        "token": "randomUUID"
+        "created_at": "timestamp",
     }
 }
 
 Response body (failed)
 {
-    "message": "email atau password salah",
+    "message": "Token is invalid",
     "error": "Unauthorized"
 }
 
