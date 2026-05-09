@@ -5,7 +5,7 @@ export const userRoutes = new Elysia({ prefix: "/api/users" })
   .post("/", async ({ body, set }) => {
     try {
       const user = await registerUser(body);
-      
+
       set.status = 201;
       return {
         message: "User registered successfully",
@@ -19,7 +19,7 @@ export const userRoutes = new Elysia({ prefix: "/api/users" })
           error: "Conflict",
         };
       }
-      
+
       set.status = 500;
       return {
         message: "Internal Server Error",
@@ -55,7 +55,7 @@ export const userRoutes = new Elysia({ prefix: "/api/users" })
   .post("/login", async ({ body, set }) => {
     try {
       const user = await loginUser(body);
-      
+
       return {
         message: "Login user successfully",
         user,
@@ -68,7 +68,7 @@ export const userRoutes = new Elysia({ prefix: "/api/users" })
           error: "Unauthorized",
         };
       }
-      
+
       set.status = 500;
       return {
         message: "Internal Server Error",
@@ -101,7 +101,7 @@ export const userRoutes = new Elysia({ prefix: "/api/users" })
       }, { description: 'Email atau password salah' })
     }
   })
-  .group("", (app) => 
+  .group("", (app) =>
     app
       .derive(async ({ headers, set }) => {
         const authHeader = headers.authorization;

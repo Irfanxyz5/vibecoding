@@ -7,9 +7,9 @@ services:
     restart: always
     environment:
       # Menentukan password untuk user root
-      MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       # Membuat database otomatis saat startup
-      MYSQL_DATABASE: vibecoding
+      MYSQL_DATABASE: ${DB_NAME}
     ports:
       - "3307:3306"
     volumes:

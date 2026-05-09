@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "db:generate": "drizzle-kit generate",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "devDependencies": {
     "@types/bun": "^1.3.13",

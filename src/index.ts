@@ -16,10 +16,13 @@ export const app = new Elysia()
   .get("/", () => "Hello World")
   .use(userRoutes);
 
-if (process.env.NODE_ENV !== "test") {
+export default app;
+
+if (process.env.NODE_ENV !== "test" && !process.env.VERCEL) {
   app.listen(3000);
   console.log(
     `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
   );
   console.log(`📚 Swagger documentation available at http://localhost:3000/swagger`);
 }
+
