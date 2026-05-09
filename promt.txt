@@ -2,12 +2,6 @@ buatkan saya issue.md yang berisi perencanaan untuk nanti di implementasikan ole
 
 isi dari perencanaan sebagai berikut :
 
-buatkan unit test untuk semua api yang tersedia
+saya mau tambahkan fitur swegger di project  ini agar user lain yang mau menggunakan API di aplikasi ini agar lebih mudah tinggal membuka swegger nya.
 
-simpan di folder tests, menggunakan bun test
-
-setiap sekenario, hapus data terlebih dahulu agar konsisten
-
-buat sekenario per API selengkap mungkin
-
-jangan buatkan terlalu detail unit test nya, buatkan saja sekenario apa yang harus di test, Biarkan nanti yang implementasi detail sekenarionya adalah Junior programmer atau ai yang lebih murah
+buatkan tahap-tahapan yang harus di lakukan untuk implementasikan jelaskan secara detail dengan target adalah seorang Junior programmer atau ai yang lebih murah
