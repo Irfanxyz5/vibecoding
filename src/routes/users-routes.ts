@@ -106,19 +106,19 @@ export const userRoutes = new Elysia({ prefix: "/api/users" })
       .derive(async ({ headers }) => {
         const authHeader = headers.authorization;
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
-          return { user: null, token: null };
+          return { user: null as any, token: null as any };
         }
 
         const token = authHeader.split(" ")[1];
         if (!token) {
-          return { user: null, token: null };
+          return { user: null as any, token: null as any };
         }
 
         try {
           const user = await getCurrentUser(token);
           return { user, token };
         } catch (error) {
-          return { user: null, token: null };
+          return { user: null as any, token: null as any };
         }
       })
       .onBeforeHandle(({ user, set }) => {
@@ -131,10 +131,15 @@ export const userRoutes = new Elysia({ prefix: "/api/users" })
         }
       })
       .get("/current", async ({ user }) => {
-        const { id, name, email } = user!;
+        // user is guaranteed non-null by onBeforeHandle
+        const userData = user as any;
         return {
           message: "User get successfully",
-          user: { id, name, email },
+          user: {
+            id: userData.id,
+            name: userData.name,
+            email: userData.email
+          },
         };
       }, {
         detail: {
@@ -158,7 +163,7 @@ export const userRoutes = new Elysia({ prefix: "/api/users" })
         }
       })
       .delete("/logout", async ({ token }) => {
-        await logoutUser(token!);
+        await logoutUser(token as string);
         return {
           message: "User logout successfully",
         };
