@@ -62,72 +62,43 @@ export const userRoutes = new Elysia({ prefix: "/api/users" })
       password: t.String()
     })
   })
-  .get("/current", async ({ headers, set }) => {
-    try {
-      const authHeader = headers.authorization;
-      if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        set.status = 401;
+  .group("", (app) => 
+    app
+      .derive(async ({ headers, set }) => {
+        const authHeader = headers.authorization;
+        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+          return { user: null, token: null };
+        }
+
+        const token = authHeader.split(" ")[1];
+        try {
+          const user = await getCurrentUser(token);
+          return { user, token };
+        } catch (error) {
+          return { user: null, token: null };
+        }
+      })
+      .onBeforeHandle(({ user, set }) => {
+        if (!user) {
+          set.status = 401;
+          return {
+            message: "Token is invalid or expired",
+            error: "Unauthorized",
+          };
+        }
+      })
+      .get("/current", async ({ user }) => {
         return {
-          message: "Token is invalid",
-          error: "Unauthorized",
+          message: "User get successfully",
+          user,
         };
-      }
-
-      const token = authHeader.split(" ")[1];
-      const user = await getCurrentUser(token);
-
-      return {
-        message: "User get successfully",
-        user,
-      };
-    } catch (error: any) {
-      if (error.message === "Token is invalid") {
-        set.status = 401;
+      })
+      .delete("/logout", async ({ token }) => {
+        await logoutUser(token!);
         return {
-          message: "Token is invalid",
-          error: "Unauthorized",
+          message: "User logout successfully",
         };
-      }
-
-      set.status = 500;
-      return {
-        message: "Internal Server Error",
-        error: error.message,
-      };
-    }
-  })
-  .delete("/logout", async ({ headers, set }) => {
-    try {
-      const authHeader = headers.authorization;
-      if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        set.status = 401;
-        return {
-          message: "Token is invalid or expired",
-          error: "Unauthorized",
-        };
-      }
-
-      const token = authHeader.split(" ")[1];
-      await logoutUser(token);
-
-      return {
-        message: "User logout successfully",
-      };
-    } catch (error: any) {
-      if (error.message === "Token is invalid or expired") {
-        set.status = 401;
-        return {
-          message: "Token is invalid or expired",
-          error: "Unauthorized",
-        };
-      }
-
-      set.status = 500;
-      return {
-        message: "Internal Server Error",
-        error: error.message,
-      };
-    }
-  });
+      })
+  );
 
 
